@@ -83,7 +83,7 @@ int send_request(int fd, char *hostname, char *port, char *path)
 
   int request_length = sprintf(request, "GET /%s HTTP/1.1\n"
                                         "Host: %s:%s\n"
-                                        "Connection: close"
+                                        "Connection: close\n"
                                         "\n",
                                path, hostname, port);
   rv = send(fd, request, request_length, 0);
@@ -117,6 +117,5 @@ int main(int argc, char *argv[])
     printf("Buf: %s\n", buf);
   }
   free(url);
-
   return 0;
 }
