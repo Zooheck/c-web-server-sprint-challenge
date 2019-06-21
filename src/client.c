@@ -62,11 +62,6 @@ urlinfo_t *parse_url(char *url)
     5. Set the port pointer to 1 character after the spot returned by strchr.
     6. Overwrite the colon with a '\0' so that we are just left with the hostname.
   */
-
-  ///////////////////
-  // IMPLEMENT ME! //
-  ///////////////////
-
   return urlinfo;
 }
 
@@ -86,11 +81,13 @@ int send_request(int fd, char *hostname, char *port, char *path)
   char request[max_request_size];
   int rv;
 
-  ///////////////////
-  // IMPLEMENT ME! //
-  ///////////////////
-
-  return 0;
+  int request_length = sprintf(request, "GET /%s HTTP/1.1\n"
+                                        "Host: %s:%s\n"
+                                        "Connection: close"
+                                        "\n",
+                               path, hostname, port);
+  rv = send(fd, request, request_length, 0);
+  return rv;
 }
 
 int main(int argc, char *argv[])
