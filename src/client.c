@@ -12,7 +12,8 @@
 /**
  * Struct to hold all three pieces of a URL
  */
-typedef struct urlinfo_t {
+typedef struct urlinfo_t
+{
   char *hostname;
   char *port;
   char *path;
@@ -34,6 +35,23 @@ urlinfo_t *parse_url(char *url)
 
   urlinfo_t *urlinfo = malloc(sizeof(urlinfo_t));
 
+  path = strchr(hostname, '/'); // split the input at the slash
+  char *temp = path;
+  path++;
+  *temp = '\0'; // set the first char to null, removing the slash
+
+  port = strchr(hostname, ':');
+  temp = port;
+  port++;
+  *temp = '\0';
+
+  printf("Path: %s\n", path);
+  printf("Port: %s\n", port);
+  printf("Hostname: %s\n", hostname);
+
+  urlinfo->path = path;
+  urlinfo->port = port;
+  urlinfo->hostname = hostname;
   /*
     We can parse the input URL by doing the following:
 
@@ -76,12 +94,13 @@ int send_request(int fd, char *hostname, char *port, char *path)
 }
 
 int main(int argc, char *argv[])
-{  
-  int sockfd, numbytes;  
+{
+  int sockfd, numbytes;
   char buf[BUFSIZE];
 
-  if (argc != 2) {
-    fprintf(stderr,"usage: client HOSTNAME:PORT/PATH\n");
+  if (argc != 2)
+  {
+    fprintf(stderr, "usage: client HOSTNAME:PORT/PATH\n");
     exit(1);
   }
 
